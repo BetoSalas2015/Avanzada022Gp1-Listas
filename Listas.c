@@ -1,4 +1,4 @@
-//  Sesión 18 - 27/09/2022
+//  Sesión 19 - 29/09/2022
 #include <stdio.h>				//  Para la I/O de programa
 #include <stdlib.h>				//  Para las rutinas de utileria
 #include <malloc.h>				//  Para la gestión de memoria dinámica
@@ -44,6 +44,58 @@ void insert(char dato)
 	}
 }
 
+void insert1(char dato)
+{
+	nodo *nuevo = NULL;
+	nuevo = (nodo *) malloc( sizeof(nodo) );
+	if( nuevo == NULL )				//  No hay memoria disponible
+	{
+		printf("Nohay memoria disponible! \n");
+		pausa;
+		exit(1);		//	Código de error personalizado 1. No hay memoria
+	}
+	nuevo -> info = dato;		//  Preservamos la información en la lista
+	nuevo->sig = raiz;
+	raiz = nuevo;			//  Insertamos el nodo en la lista
+}
+
+void insertn(char dato, int n)
+{
+	nodo *nuevo = NULL;
+	nuevo = (nodo *) malloc( sizeof(nodo) );
+	if( nuevo == NULL )				//  No hay memoria disponible
+	{
+		printf("No hay memoria disponible! \n");
+		pausa;
+		exit(1);		//	Código de error personalizado 1. No hay memoria
+	}
+	nuevo -> info = dato;		//  Preservamos la información en la lista
+	if( raiz == NULL )			//  Lista vacía, no hay nodos
+	{
+		raiz = nuevo;			//  Insertamos el nodo en la lista
+		raiz ->sig = NULL;		//  Se vuelve el último nodo de la lista
+		return;					//  Ya inserté el nodo. se acabo!
+	}
+	if( n == 1)
+	{
+		nuevo -> info = dato;		//  Preservamos la información en la lista
+		nuevo->sig = raiz;
+		raiz = nuevo;			//  Insertamos el nodo en la lista
+	}
+	else				//  La lista no esta vacía, hay al menos 1 nodo
+	{
+		nodo *recorre = raiz;
+		int cont = 1;
+		while(recorre ->sig != NULL && cont == n-2 )		// Estoy posicionado en el ultimo nodo?
+		{
+			recorre = recorre-> sig; 
+			cont++;
+		}
+		nuevo->sig = recorre->sig;
+		recorre->sig = nuevo;		// Insertamos el nodo en la lista ligada
+	}
+}
+
 void imprimeLista()
 {
 	nodo *recorre = raiz;
@@ -59,13 +111,14 @@ int main()
 {	
 	system("color 7");
 	imprimeLista();
-	insert('R');
-	insert('o');
-	insert('b');
-	insert('e');
-	insert('r');
-	insert('t');
-	insert('o');
+	insert1('R');
+	insert1('o');
+	insert1('b');
+	insert1('e');
+	insert1('r');
+	insert1('t');
+	insert1('o');
+	insertn('z', 3);
 
 	imprimeLista();
 
