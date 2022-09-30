@@ -1,7 +1,7 @@
-//  Sesión 19 - 29/09/2022
+//  Sesión 20 - 30/09/2022
 #include <stdio.h>				//  Para la I/O de programa
 #include <stdlib.h>				//  Para las rutinas de utileria
-#include <malloc.h>				//  Para la gestión de memoria dinámica
+#include <malloc.h>				//  Para la gestió	n de memoria dinámica
 
 //  Macros
 #define pausa system("pause")
@@ -86,7 +86,7 @@ void insertn(char dato, int n)
 	{
 		nodo *recorre = raiz;
 		int cont = 1;
-		while(recorre ->sig != NULL && cont == n-2 )		// Estoy posicionado en el ultimo nodo?
+		while(recorre ->sig != NULL && cont < n - 1 )		// Estoy posicionado en el ultimo nodo?
 		{
 			recorre = recorre-> sig; 
 			cont++;
@@ -107,9 +107,58 @@ void imprimeLista()
 	putchar('\n');
 }
 
+char remueve()
+{
+	nodo *recorre = raiz;
+	char dato;
+	if( recorre == NULL)				//  La lista está vacia
+	{
+		printf("La lista está vacía, no hay nada que remover.\n");
+		pausa;
+		return '\0';
+	}
+	if(	recorre->sig == NULL )			// Estoy posicionado en el último
+	{
+		dato = recorre->info;			//  Preservo el dato
+		raiz = NULL;					//  Vacio la lista
+		free(recorre);					//  Libero memoria reservada por malloc()
+		return dato;					//  Regresamos el dato extraído de la lista
+	}
+	else
+	{
+		nodo *ultimo = recorre->sig;	//  Posicionamos ultimo en el "ultimo?"
+		while( ultimo->sig != NULL)		// No estoy posicionado en el ultimo?
+		{
+			recorre = recorre->sig;		//  Recorre avanza al siguiente
+			ultimo = ultimo->sig;		//  Ultimo avanza al siguiente
+		}
+		recorre->sig = NULL;			//  Recorre se vuelve el últmo nodo
+		dato = ultimo->info;			//  Preservo la información
+		free(ultimo);					//  Libero memoria reservada por malloc()
+		return dato;					//  Regresamos el dato extraído de la lista
+	}
+}
+
+char remueve1()
+{
+	nodo *recorre = raiz;
+	char dato;
+	if( recorre == NULL)				//  La lista está vacia
+	{
+		printf("La lista está vacía, no hay nada que remover.\n");
+		pausa;
+		return '\0';
+	}
+	dato = recorre->info;			//  Preservo el dato
+	raiz = raiz->sig;				//  apunto a lo que sigue (null u otro nodo)
+	free(recorre);					//  Libero memoria reservada por malloc()
+	return dato;					//  Regresamos el dato extraído de la lista
+}	
+
 int main()
 {	
 	system("color 7");
+
 	imprimeLista();
 	insert1('R');
 	insert1('o');
@@ -118,7 +167,15 @@ int main()
 	insert1('r');
 	insert1('t');
 	insert1('o');
-	insertn('z', 3);
+	insertn('z', 40);
+
+	imprimeLista();
+
+	printf("Salio de la lista: %c \n", remueve() );
+
+	imprimeLista();
+
+	printf("Salio de la lista: %c \n", remueve1() );
 
 	imprimeLista();
 
