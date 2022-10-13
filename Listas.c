@@ -1,8 +1,6 @@
 //  Sesión 21 - 04/10/2022
 #include "Listas.h"
 
-
-
 int main()
 {	
 	nodo *nombre = NULL;
